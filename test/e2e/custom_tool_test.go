@@ -132,6 +132,22 @@ func TestCustomToolWithEnv(t *testing.T) {
 			sort.Strings(outputSlice)
 
 			assert.EqualValues(t, expectedApiVersionSlice, outputSlice)
+		}).
+		And(func(app *Application) {
+			output, err := Run("", "kubectl", "-n", DeploymentNamespace(), "get", "cm", ctx.AppName(), "-o", "jsonpath={.metadata.annotations.AppMetadata}")
+			assert.NoError(t, err)
+			outputSlice := strings.Split(output, ",")
+			sort.Strings(outputSlice)
+
+			assert.Equal(t, "", output)
+		}).
+		And(func(app *Application) {
+			output, err := Run("", "kubectl", "-n", DeploymentNamespace(), "get", "cm", ctx.AppName(), "-o", "jsonpath={.metadata.annotations.AppSpec}")
+			assert.NoError(t, err)
+			outputSlice := strings.Split(output, ",")
+			sort.Strings(outputSlice)
+
+			assert.Equal(t, "", output)
 		})
 }
 

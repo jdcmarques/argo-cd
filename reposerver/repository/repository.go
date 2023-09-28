@@ -1448,6 +1448,10 @@ func newEnv(q *apiclient.ManifestRequest, revision string) *v1alpha1.Env {
 	if len(shortRevision) > 7 {
 		shortRevision = shortRevision[:7]
 	}
+
+	metadata, _ := json.Marshal(q.AppMetadata)
+	spec, _ := json.Marshal(q.AppSpec)
+
 	return &v1alpha1.Env{
 		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_NAME", Value: q.AppName},
 		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_NAMESPACE", Value: q.Namespace},
@@ -1456,6 +1460,8 @@ func newEnv(q *apiclient.ManifestRequest, revision string) *v1alpha1.Env {
 		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_SOURCE_REPO_URL", Value: q.Repo.Repo},
 		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_SOURCE_PATH", Value: q.ApplicationSource.Path},
 		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_SOURCE_TARGET_REVISION", Value: q.ApplicationSource.TargetRevision},
+		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_METADATA", Value: string(metadata)},
+		&v1alpha1.EnvEntry{Name: "ARGOCD_APP_SPEC", Value: string(spec)},
 	}
 }
 
