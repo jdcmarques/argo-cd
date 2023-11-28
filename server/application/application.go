@@ -581,6 +581,8 @@ func (s *Server) GetManifestsWithFiles(stream application.ApplicationService_Get
 			AppLabelKey:        appInstanceLabelKey,
 			AppName:            a.Name,
 			Namespace:          a.Spec.Destination.Namespace,
+			AppSpec:            &a.Spec,
+			AppMetadata:        &a.ObjectMeta,
 			ApplicationSource:  &source,
 			Repos:              helmRepos,
 			KustomizeOptions:   kustomizeOptions,

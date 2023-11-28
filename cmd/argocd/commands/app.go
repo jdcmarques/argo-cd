@@ -1004,6 +1004,8 @@ func getLocalObjectsString(ctx context.Context, app *argoappv1.Application, proj
 		TrackingMethod:     trackingMethod,
 		ProjectName:        proj.Name,
 		ProjectSourceRepos: proj.Spec.SourceRepos,
+		AppSpec:            &app.Spec,
+		AppMetadata:        &app.ObjectMeta,
 	}, true, &git.NoopCredsStore{}, resource.MustParse("0"), nil)
 	errors.CheckError(err)
 

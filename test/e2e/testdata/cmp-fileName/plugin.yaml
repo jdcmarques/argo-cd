@@ -9,7 +9,7 @@ spec:
       [
         sh,
         -c,
-        'echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\", , \"AppMetadata\": \"$ARGOCD_APP_METADATA\", \"AppSpec\": \"$ARGOCD_APP_SPEC\", \"Bar\": \"baz\"}}}"',
+        'echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\", \"AppMetadata\": \"$ARGOCD_APP_METADATA\", \"AppSpec\": \"$ARGOCD_APP_SPEC\", \"Bar\": \"baz\"}}}"',
       ]
   discover:
     fileName: 'subdir/s*.yaml'

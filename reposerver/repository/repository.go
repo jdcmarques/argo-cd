@@ -1363,6 +1363,13 @@ func GenerateManifests(ctx context.Context, appPath, repoRoot, revision string, 
 	if q.Repo != nil {
 		repoURL = q.Repo.Repo
 	}
+
+	qBytes, _ := json.Marshal(q)
+	qBytes2, _ := json.Marshal(ctx)
+
+	log.Infof("manifest request: %s", string(qBytes))
+
+	log.Infof("context request: %s", string(qBytes2))
 	env := newEnv(q, revision)
 
 	switch appSourceType {
@@ -1449,7 +1456,23 @@ func newEnv(q *apiclient.ManifestRequest, revision string) *v1alpha1.Env {
 		shortRevision = shortRevision[:7]
 	}
 
-	metadata, _ := json.Marshal(q.AppMetadata)
+	metadata := ""
+
+	if q.AppMetadata != nil {
+		metaCopy := q.AppMetadata.DeepCopy()
+
+		cleanMetadata := metav1.ObjectMeta{
+			Labels:      metaCopy.Labels,
+			Annotations: metaCopy.Annotations,
+			Name:        metaCopy.Name,
+			Namespace:   metaCopy.Namespace,
+			Finalizers:  metaCopy.Finalizers,
+		}
+		metaByte, _ := json.Marshal(cleanMetadata)
+
+		metadata = string(metaByte)
+	}
+
 	spec, _ := json.Marshal(q.AppSpec)
 
 	return &v1alpha1.Env{
